@@ -67,6 +67,8 @@ TN3192, "Migrating your app from the deprecated UIRequiresFullScreen key", revis
 
 On Duo specifically: "The app continues to honor `UIRequiresFullScreen`, but still resizes when the device opens or closes" ([Tech Talk 111461](https://developer.apple.com/videos/play/tech-talks/111461/)); "`UIRequiresFullScreen` is honored, and apps adapt in place rather than backgrounding" ([thread 847644](https://developer.apple.com/forums/thread/847644)). TN3192's drag-to-resize wording describes iPad and iPhone Mirroring; how a discrete resize is timed against a fold on Duo is not described beyond "still resizes when the device opens or closes" (gap).
 
+Tech Talk 111461 verbatim (re-checked against the transcript on 2026-10-27): "iPhone Duo will continue to honor the `UIRequiresFullScreen` key, but your app will still resize when someone opens or closes their iPhone Duo. iPhone Duo respects your supported interface orientations, but your app will scale on the inner display, including in Split View multitasking." The same talk also says: "Interface orientation on the inner display behaves differently. The inner display doesn't honor your supported interface orientations. As with Idiom, avoid checking interface orientation for layout decisions. Use size classes instead." Apple has not published how "respects ... but will scale" and "doesn't honor" fit together; present both and design with size classes.
+
 Apple's migration checklist, verbatim order: provide a launch screen; support all interface orientations; remove `UIRequiresFullScreen`.
 
 APIs TN3192 names for apps that observe scene geometry:
