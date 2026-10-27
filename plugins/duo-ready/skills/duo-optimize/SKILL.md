@@ -81,6 +81,11 @@ replacement. Fix P0, then P1, then P2. Rules for every edit:
   idiom, no Duo Info.plist key and no point dimensions.
 - Do not branch on device model, idiom or orientation, and do not hard-code
   point sizes from blogs (third-party, unverified).
+- A scanner finding on a project file (`project.pbxproj`) belongs to one
+  target; check which target and whether the main app's `Info.plist` has the
+  same setting before deciding. A deliberate product decision (for example an
+  owner-committed portrait lock) is declined by design: say so with the commit
+  or file that shows it.
 - A finding in a stub (a bare `package.json` with no native shell) is not
   applicable; report it. `heuristic: true` findings need the surrounding code
   read first; some are false positives.
@@ -98,6 +103,11 @@ fix applied" and never edit the scanner or add `--ignore` to lower the count.
    destination using the Duo simulator's id from `xcrun simctl list devices`
    (the destination name is unconfirmed by Apple). Fix build errors your edits
    caused; report the rest.
+   Use a fresh `-derivedDataPath` per project: a reused folder held another
+   app's bundle and a `*.app` glob installed the wrong one. If the build fails
+   on a git-ignored file the project documents (for example
+   `Config/Secrets.xcconfig` with a committed `.example`), copy the example to
+   the ignored name, leave it untracked, and say so in the report.
 2. Confirm the SDK stamp: `otool -l <App.app/App> | grep -A4 LC_BUILD_VERSION`
    must show `sdk 27.1` (third-party check; only that SDK gives the full inner
    display with vertical bars).
@@ -138,6 +148,17 @@ fix applied" and never edit the scanner or add `--ignore` to lower the count.
    "Not verified" in an unattended run). Never label a capture "inner" or "outer"
    from the file name; label it from its pixel size and content.
 
+   If the project's UI tests are your way to tap and scroll (observed on one
+   app, Xcode 27.1, not documented by Apple): `XCUIScreen.main.screenshot()`
+   returned the outer display, blank while the device was Open, so take the
+   screenshots with `xcrun simctl io <udid> screenshot --display=primary-1` in a
+   background loop and have the test log timestamps; coordinate-based swipes did
+   not scroll because `app.frame` and the scroll view's frame had swapped
+   width and height, while element-based `swipeUp()` and `.tap()` worked.
+   Debug routes can add DEBUG-only content that changes layout height, so a
+   defect seen only on a debug screen needs a Release-path check before you fix
+   it.
+
 ## Phase 5: look at it
 
 For each key screen, in each state you can reach (outer display closed, inner
@@ -147,7 +168,9 @@ display open, rotated if the app supports it, and after a pose change):
    `xcrun simctl io <udid> screenshot --display=<id>` after reading
    `xcrun simctl io <udid> enumerate` (the display ids conflict between
    third-party reports, so trust the printed list and the pixel sizes). Ignore
-   the App Store file names. If the image is black or empty, wait and retake:
+   the App Store file names: the script's fixed `outer-portrait` and
+   `inner-portrait` names are wrong when the device is Open (inner 2853x2007
+   landscape), so rename by the pixel size you actually got. If the image is black or empty, wait and retake:
    Apple lists black screenshots for a few minutes after boot (187146039). The
    script checks only pixel size and can exit 0 on a black capture, so open every
    image, and treat identical file sizes across different screens as a blank
@@ -184,6 +207,13 @@ SF Symbol with its title, per `duo-bars`.
 
 Never describe a screenshot you did not open, and never report a screen as
 checked if it was only built.
+
+## A run with no commits is a valid result
+
+If every finding is declined by design or cannot be cleared by code, and the
+screenshots look right on every display and pose you reached, make no commit and
+say so. Report the screenshots you opened, each declined finding with its
+reason, and what was not verified. Do not edit code to move the scanner count.
 
 ## Final report
 
