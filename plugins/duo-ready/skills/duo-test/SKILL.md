@@ -74,7 +74,7 @@ App Store Connect accepts outer display 1398×2034 (portrait) / 2034×1398 (land
 
 ### 6. Decide what goes into CI
 
-Nothing from Apple, Xcode Cloud, fastlane, Bitrise or Codemagic documents a Duo destination (third-party searches, unverified). Offer the user the inferred matrix in `references/ci.md`, labelled as inferred:
+Nothing from Apple, Xcode Cloud, Bitrise or Codemagic documents a Duo destination (third-party searches, unverified). fastlane: PR #30444 "[deliver] add iphone duo screenshot sizes" merged 2026-10-14 and shipped in fastlane 2.241.1 (2026-10-15); `deliver` maps `DisplayType::APP_IPHONE_DUO` (display name "iPhone Duo") to 1398×2034, 2034×1398, 2007×2853 and 2853×2007 and matches screenshot files to display types by pixel size, so any filename works (third-party, read from fastlane's source on 2026-10-27: https://github.com/fastlane/fastlane/pull/30444). Older fastlane versions reject the sizes. `snapshot` and `frameit` Duo support: not verified. The string `APP_IPHONE_DUO` is what fastlane sends to the App Store Connect API; Apple's own API documentation for it was not located (gap). Offer the user the inferred matrix in `references/ci.md`, labelled as inferred:
 
 - a Duo simulator job for unit and UI tests; the exact `xcodebuild -destination 'platform=iOS Simulator,name=iPhone Duo,OS=27.1'` string is unconfirmed, so tell the user to confirm the name with `xcrun simctl list devicetypes | grep -i duo` before committing it;
 - the default (closed) pose on the Duo simulator plus a Resizable iPhone simulator sized to the inner-display point sizes for regular-width coverage, because tests cannot fold;

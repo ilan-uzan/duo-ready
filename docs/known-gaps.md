@@ -28,7 +28,7 @@ Status labels: "Apple" means confirmed by Apple; "third-party, unverified" means
 | RAM (12 GB) and per-app memory cap (~6 GB) | Geekbench and forum anecdotes | third-party, unverified |
 | iOS 27.1 public release notes / release date for non-Duo iPhones | URL 404; press says 27.1 shipped Duo-only initially | Gap |
 | Whether fold ever triggers `sceneWillResignActive`/background | Not stated except the multi-window DTS answer | Gap |
-| Fastlane / ASC API `ScreenshotDisplayType` values for Duo | Undocumented | Gap |
+| Fastlane / ASC API `ScreenshotDisplayType` values for Duo | fastlane 2.241.1 (2026-10-15, PR #30444) added `APP_IPHONE_DUO` with the four Duo sizes; Apple's API documentation for the value was not located | Partly resolved (third-party source code) |
 | Safari 27.1 flag names; WKWebView exposure of fold APIs; `env(safe-area-inset-*)` with vertical bars | Not documented | Gap |
 
 Where to look for each item:

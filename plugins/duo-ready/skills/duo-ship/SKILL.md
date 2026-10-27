@@ -25,7 +25,7 @@ description: >-
 - How much of the inner display a build gets depends on the SDK it links against, not its deployment target: iOS 26 SDK letterboxed, iOS 27 SDK fills most, iOS 27.1 SDK edge-to-edge with vertical bars ([Apple: Three steps](https://developer.apple.com/iphone-duo/prepare/)). Xcode 27.1 (build 27A9275, released October 15, 2026) carries the iOS 27.1 SDK and "requires a Mac running macOS Tahoe 26.6 or later" ([Xcode 27.1 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-27_1-release-notes); [Software Releases](https://developer.apple.com/news/releases?id=10152026a)).
 - Two iOS 27 SDK rules become launch-blocking on Duo: "Starting in iOS 27 and iPadOS 27, a launch screen is required for App Store submission" ([TN3192](https://developer.apple.com/documentation/technotes/tn3192-migrating-your-app-from-the-deprecated-uirequiresfullscreen-key), cross-referencing TN3208), and the scene-based lifecycle is required for apps built with this SDK (third-party reports of Apple's UIKit Q&A and a React Native launch failure; see Common mistakes).
 
-Everything below follows from those five points. Where Apple is silent (fastlane enum values, inner-vs-outer set requirement, review guideline text), say so instead of guessing.
+Everything below follows from those five points. Where Apple is silent (inner-vs-outer set requirement, review guideline text, the App Store Connect API enum), say so instead of guessing. fastlane's own support is evidenced in its source, see the tooling section.
 
 ## Workflow
 
@@ -89,7 +89,7 @@ Read `references/april-2027.md` and give the user both quotes. The honest positi
 
 ### Step 7: automation and analytics, honestly
 
-- fastlane `deliver` / `snapshot` and the App Store Connect API: no documentation records the `ScreenshotDisplayType` or `screenshot_display_type` values for Duo ([fastlane snapshot](https://docs.fastlane.tools/actions/snapshot/) has no Duo mention). Do not invent an enum case such as `APP_IPHONE_DUO`. Have the user upload the Duo sets manually in App Store Connect, or inspect the API's live enum for the new values and quote what they find.
+- fastlane: PR #30444 "[deliver] add iphone duo screenshot sizes" merged 2026-10-14 and shipped in fastlane 2.241.1 (2026-10-15); `deliver` maps `DisplayType::APP_IPHONE_DUO` (display name "iPhone Duo") to 1398×2034, 2034×1398, 2007×2853 and 2853×2007 and matches screenshot files to display types by pixel size, so any filename works (third-party, read from fastlane's source on 2026-10-27: https://github.com/fastlane/fastlane/pull/30444). Older fastlane versions reject the sizes. `snapshot` and `frameit` Duo support: not verified. The string `APP_IPHONE_DUO` is what fastlane sends to the App Store Connect API; Apple's own API documentation for it was not located (gap).
 - App Store Connect analytics exposes only platform-level Device values (iPhone, iPad, Apple TV, iPod, Desktop, Apple Vision), with no Duo breakdown ([ASC App analytics filters and dimensions](https://developer.apple.com/help/app-store-connect/reference/reporting/app-analytics-filters-and-dimensions/)). If they need Duo adoption numbers, they must log their own properties; duo-backend covers that.
 - Xcode Cloud, Bitrise and Codemagic documentation mention nothing Duo-specific (gap); a Duo build is an ordinary iOS build to TestFlight. No TestFlight-specific guidance exists.
 
@@ -105,7 +105,7 @@ Open `references/release-checklist.md` and go through it item by item with the u
 - Uploading composed or mock-up screenshots to get the badge. The badge is earned by upload alone (inferred), but 2.3.3 requires the real app (forum paraphrase), and launch-week press described unoptimized apps as visibly letterboxed (third-party, [Macworld](https://www.macworld.com/article/3267488/6-iphone-duo-highs-and-lows-that-defined-my-day-one-experience.html)); the mismatch is what gets a rejection.
 - Trusting the "19.5:9" label on the app preview page. Use the pixel figures.
 - Taking simulator screenshots right after boot and getting black images (Apple known issue 187146039).
-- Guessing fastlane / ASC API display-type values. Undocumented; say so.
+- Guessing App Store Connect API display-type values. Only `APP_IPHONE_DUO` is evidenced, and only through fastlane's source; say so.
 - Assuming the April 2027 rule only applies to 27.1 SDK builds because the specs page says so. The news post says all submissions; Apple has not reconciled them.
 - Treating "Duo screenshots uploaded" as "optimized". Apple's own tiers put optimization at the iOS 27.1 SDK, and the featuring wording asks for "support for all device poses".
 
