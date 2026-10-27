@@ -126,8 +126,9 @@ fix applied" and never edit the scanner or add `--ignore` to lower the count.
    report that a human can set the pose and rerun Phase 5.
 
    The pose can silently revert. On the test machine the device went from Open
-   back to closed after an install and launch while the simulator stayed Booted,
-   and nothing reported it. Read the pose from the captures: `--display=primary-1`
+   back to closed during a long agent run while the simulator stayed Booted, and
+   nothing reported it (the cause was not identified; in another run a plain
+   install and launch left the pose Open). Read the pose from the captures: `--display=primary-1`
    returning 2853x2007 with content means open (landscape); 2007x2853 and black
    means closed; `--display=primary` swaps the other way (the display names follow
    the active display, observed on one machine). `simctl io enumerate` printed no
