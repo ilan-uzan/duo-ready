@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: backend-cannot-see-duo
+expected_outcome: |
+  Refuses to map iPhone19,4 to "pad": cites Apple that the idiom stays .phone, that Duo has no
+  UIUserInterfaceIdiom of its own, and the Three steps rule not to treat regular width as iPad.
+  Rewrites the header to carry horizontalSizeClass/verticalSizeClass, scene size in points and
+  displayScale instead of UIScreen.main values, and tells the BFF to key hints on size class plus
+  a width bucket and to prefer two columns in regular width, labelled as inferred. Explains that
+  UIScreen.main is ambiguous per Apple so the 466x678 Amplitude figure under-counts, that
+  iPhone19,4 is a third-party identifier, and that ASC analytics has no Duo dimension; proposes
+  logging own properties including hinge status via onHingeChange/UIHingeInteraction with only
+  .partiallyOpen confirmed by Apple, and names the duplicate-request/Split View caveats.

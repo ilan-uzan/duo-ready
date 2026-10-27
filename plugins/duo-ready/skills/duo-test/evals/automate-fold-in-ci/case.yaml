@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: automate-fold-in-ci
+expected_outcome: |
+  Says plainly that there is no supported way to change the pose from XCUITest or simctl: XCUIDevice documents only buttons, orientation and Siri, `xcrun simctl help` has no fold or posture subcommand, and Apple has not replied to the forum request (thread 847883); so the fold-mid-transfer gate cannot be a supported CI step and the user should push back.
+  Labels duoctl (and serve-sim, hinge) as unsupported community tools that drive Device Hub's UI, acceptable only for local exploratory runs, not as a CI dependency.
+  Offers the inferred alternative matrix clearly marked as inferred: Duo simulator job in the default closed pose plus a Resizable iPhone simulator for regular-width coverage, with the `xcodebuild -destination 'platform=iOS Simulator,name=iPhone Duo,OS=27.1'` string flagged as unconfirmed and a `xcrun simctl list devicetypes | grep -i duo` step to confirm it; notes the several-minute first boot (187708500) and the roughly 7.85 GB runtime (third-party) for runner provisioning.
+  Reframes the state check: Apple says a fold is a trait change that preserves text input, so the amount-field assertion is best done manually in Device Hub (Closed / Partially Open / Open) or as a resize test on the Resizable simulator; recommends the otool LC_BUILD_VERSION check for sdk 27.1 in the pipeline.
+  Does not invent a simctl pose flag, an Apple-documented destination name, or fastlane Duo screenshot enum values (says they are undocumented).

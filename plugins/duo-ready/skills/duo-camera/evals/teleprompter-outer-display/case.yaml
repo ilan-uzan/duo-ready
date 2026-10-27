@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: teleprompter-outer-display
+expected_outcome: |
+  Names CameraCaptureAccessory (iOS 27.1+) attached with .sceneAccessory on the camera view, with the isEnabled binding and onAvailabilityChange, following Apple's teleprompter example; states the conditions (app full screen on the inner display, active camera session, registered on the same view as the camera UI) and that content disappears when capture stops, the app leaves the foreground, or the device closes.
+  Answers that no Info.plist scene-manifest entry is needed or effective (the system assigns UISceneSession.Role.windowCameraCaptureAccessory), that essential controls such as record/stop must stay in the capture interface, and that openWindow is not the mechanism because non-camera apps cannot draw on the outer display.
+  Corrects the simulator assumption: the simulator has no camera, and the accessory appearing without a session is Xcode 27.1 known issue 190155353 (recorded fixed in the 27.2 RC notes), so testing must happen on a device.
+  Does not invent "tent mode" APIs or a setter for anything Apple did not document.

@@ -1,0 +1,5 @@
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+platform :ios, '15.1'
+target 'BadApp' do
+  use_react_native!(:path => '../node_modules/react-native')
+end

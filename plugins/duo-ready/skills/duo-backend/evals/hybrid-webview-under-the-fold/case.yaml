@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: hybrid-webview-under-the-fold
+expected_outcome: |
+  States that Viewport Segments and Device Posture exist in iOS 27.1 Safari only behind opt-in
+  Feature Flags (Apple Group Lab) and are not available in WKWebView, where CSS insets do not
+  account for the fold (Apple UIKit Q&A, third-party summary), so the shell must read
+  reservedRegions(kind:options:) and per-side safe-area insets and pass them to the page.
+  Fixes the shell's UIScreen.main.bounds frame, and the web bundle's 100vh, UA sniffing and
+  cached innerWidth with the third-party hybrid fixes labelled as such, and treats the Safari
+  APIs as feature-detected progressive enhancement. Does not claim Apple exposes the APIs to
+  WKWebView, does not invent Safari flag names, and labels point sizes as third-party.

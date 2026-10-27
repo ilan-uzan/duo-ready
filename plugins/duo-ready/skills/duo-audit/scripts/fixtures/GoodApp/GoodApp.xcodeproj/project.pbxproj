@@ -1,0 +1,27 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	objectVersion = 77;
+	objects = {
+		BB000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 2710;
+			};
+		};
+		BB000002 /* GoodApp */ = {
+			isa = PBXNativeTarget;
+			name = GoodApp;
+			productType = "com.apple.product-type.application";
+		};
+		BB000003 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				GENERATE_INFOPLIST_FILE = NO;
+			};
+			name = Release;
+		};
+	};
+	rootObject = BB000001;
+}

@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: front-camera-faces-away
+expected_outcome: |
+  Explains that .builtInWideAngleCamera at .front returns the Virtual Front Camera on iPhone Duo (auto-switches outer/inner, capped at 1080p/60, no depth), so 4K selfie needs .builtInOuterUltraWideCamera addressed individually plus AVCaptureDeviceDirectionCoordinator (AVKit) to know which camera faces the user; cites Apple's "a front camera is not always looking at you".
+  Rejects device-model detection and position-based mirroring; gives the fix: automaticallyAdjustsVideoMirroring = false before isVideoMirrored (or it raises), decide from the direction map, reapply after each new map/input.
+  States the coordinator rules: one per preview view, strong reference, main-actor handler, no AVFoundation in the handler, swap a single input, list rear cameras too.
+  Says the simulator has no camera so this must be tested on a device, and flags that the coordinator's exact init signature is inferred from Apple's example and should be confirmed in the 27A9275 SDK rather than guessed.

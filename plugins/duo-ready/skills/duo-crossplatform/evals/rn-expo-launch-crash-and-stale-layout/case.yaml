@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: rn-expo-launch-crash-and-stale-layout
+expected_outcome: |
+  Names the fix for the launch crash as adopting the UIScene lifecycle (SceneDelegate, UIApplicationSceneManifest, window via UIWindow(windowScene:)), or upgrading to React Native 0.88 where issue #58606 was fixed, and mentions the Expo route (expo-build-properties ios.enableSceneSupport: true); cites Apple's Three steps page for the SDK tiers and the UIScreen.main replacement.
+  Replaces module-scope Dimensions.get with useWindowDimensions(), replaces Platform.isPad with a width/height-based decision (Apple: idiom stays .phone, inner display is regular/regular), and replaces Math.max(insets.left, insets.right) with per-edge insets, citing Apple's "handle each side independently".
+  States that the portrait lock is honored on the outer display only (Apple Forums 847644 / Tech Talk 111461), so the layout must work wide and short.
+  Labels the JS-layer advice and the @cawrestler/react-native-duo package as third-party/unverified, states its requirements (New Architecture, Xcode 27.1+, no Expo Go), notes that no framework had official Duo guidance as of 2026-10-26, and tells the user to check the current RN/Expo release notes. Does not invent point sizes, a pose API, or a Duo Info.plist key.

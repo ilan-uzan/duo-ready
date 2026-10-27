@@ -1,0 +1,15 @@
+{
+  "name": "duo-ready",
+  "description": "Make any iOS app ready for iPhone Duo. 10 Claude skills grounded in Apple's own documentation: audit, adaptive layout, vertical bars, scenes and hinge, camera, testing, App Store screenshots, design, backend, cross-platform.",
+  "owner": {
+    "name": "Ilan Uzan"
+  },
+  "plugins": [
+    {
+      "name": "duo-ready",
+      "description": "iPhone Duo skills: /duo-audit /duo-layout /duo-bars /duo-scenes /duo-camera /duo-test /duo-ship /duo-design /duo-backend /duo-crossplatform",
+      "source": "./plugins/duo-ready",
+      "category": "development"
+    }
+  ]
+}

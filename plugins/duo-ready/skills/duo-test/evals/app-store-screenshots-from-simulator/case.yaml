@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: app-store-screenshots-from-simulator
+expected_outcome: |
+  States Apple's App Store Connect sizes exactly (outer 1398x2034 / 2034x1398, inner 2007x2853 / 2853x2007) with the ASC screenshot specifications as the source, and explains that 2007x2853 is the inner display's size, not an error.
+  Explains the black PNG with Apple's known issue 187146039 (screenshots may be black for a few minutes after boot) and with the fact that a plain screenshot shows the inner display, which is inactive while the device is closed; says the device must be opened in Device Hub because there is no simctl pose command.
+  Points to scripts/duo_screenshots.sh (or reproduces its approach): run `xcrun simctl io <udid> enumerate` first, capture with `--display=` per display, verify with `sips -g pixelWidth -g pixelHeight`, and labels the display identifiers (primary / primary-1, or 1 / 3) as third-party and conflicting rather than Apple's.
+  Does not invent a simctl fold flag or an Apple-documented display name; mentions that inner-display capture cannot be fully unattended with supported tools.

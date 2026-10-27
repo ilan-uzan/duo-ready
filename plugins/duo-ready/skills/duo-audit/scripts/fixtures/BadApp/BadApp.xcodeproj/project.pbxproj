@@ -1,0 +1,28 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	objectVersion = 60;
+	objects = {
+		AA000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 2600;
+			};
+		};
+		AA000002 /* BadApp */ = {
+			isa = PBXNativeTarget;
+			name = BadApp;
+			productType = "com.apple.product-type.application";
+		};
+		AA000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SUPPORTS_MACCATALYST = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+			};
+			name = Debug;
+		};
+	};
+	rootObject = AA000001;
+}

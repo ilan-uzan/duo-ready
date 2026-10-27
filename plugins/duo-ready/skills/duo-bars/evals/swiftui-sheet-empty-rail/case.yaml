@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: swiftui-sheet-empty-rail
+expected_outcome: |
+  Explains the cause with Apple's rule: title-only items are not presented vertically ("If your item has a title and doesn't have an icon, the system doesn't present it vertically", Preparing your app for iPhone Duo), so the sheet's text-only Done and Reset stay horizontal while the rail is reserved; names that there is no Info.plist key (opt-in is SDK plus container) and refuses to invent one.
+  Offers the two Apple-consistent fixes and helps choose: give each item a symbol plus title (Button("Done", systemImage:) style, Done via .topBarPinnedTrailing, Reset via .cancellationAction) so the items ride the vertical bar; or, for genuinely one-item sheets, opt out with toolbarVerticalBehavior(.disabled) (Apple's "Control-heavy sheets with only one item" case), applied consistently to every sheet because mixing behaviours makes buttons jump (labelled third-party).
+  Mentions that on the inner display sheets get horizontal bars for centered/leading placements and vertical for trailing (presentationPlacement), without inventing the placement case names. Points to verifying in Device Hub Closed and Open poses. Any composed code carries the "not yet compile-checked" header.

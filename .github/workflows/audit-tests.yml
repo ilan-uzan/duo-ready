@@ -1,0 +1,26 @@
+name: audit tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run duo_audit unit tests
+        run: python3 -I plugins/duo-ready/skills/duo-audit/scripts/test_duo_audit.py
+      - name: Audit the fixture app (expects P0 findings, exit 1)
+        run: |
+          set +e
+          python3 -I plugins/duo-ready/skills/duo-audit/scripts/duo_audit.py plugins/duo-ready/skills/duo-audit/scripts/fixtures/BadApp --format markdown
+          code=$?
+          set -e
+          test "$code" -eq 1
+      - name: Audit the clean fixture (expects exit 0)
+        run: python3 -I plugins/duo-ready/skills/duo-audit/scripts/duo_audit.py plugins/duo-ready/skills/duo-audit/scripts/fixtures/GoodApp

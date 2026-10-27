@@ -1,0 +1,4 @@
+name: badapp
+dependencies:
+  flutter:
+    sdk: flutter

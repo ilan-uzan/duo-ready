@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: first-duo-release-checklist
+expected_outcome: |
+  Asks to look at (or runs duo_audit.py on) ./FieldOps and identifies the two blockers from the user's description: the missing launch screen (TN3192: "a launch screen is required for App Store submission", cross-referencing TN3208) and the AppDelegate-only lifecycle (UIApplicationSceneManifest + UIWindowSceneDelegate, UIWindow(windowScene:)), citing the React Native launch failure as third-party evidence.
+  Explains UIRequiresFullScreen now only yields discrete resizing and TN3192's migration checklist (launch screen, all orientations, remove the key), and that portrait-only is ignored on the inner display.
+  Frames the 27.0 vs 27.1 SDK decision with Apple's tier text and the sentence "Before shipping with this SDK, confirm your content adapts to the vertical bars"; notes the deployment target does not change the tier and there is no plist opt-out.
+  Flags the Mac Catalyst known issue (iOS 27.1-only APIs need #if !targetEnvironment(macCatalyst)) and the camera/StandBy simulator limits for the photo capture feature.
+  Walks the release checklist item by item (toolchain, blockers, verification, screenshots with exact sizes, previews, ASC metadata, April 2027 plan), recommends both portrait sets captured from the Duo simulator, labels the April 2027 scope as unresolved with both quotes, and does not invent fastlane values or Review Guideline text.

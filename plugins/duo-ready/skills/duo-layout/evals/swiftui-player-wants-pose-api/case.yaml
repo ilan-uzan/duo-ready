@@ -1,0 +1,13 @@
+schema_version: "1.1"
+name: swiftui-player-wants-pose-api
+expected_outcome: |
+  States that Apple exposes no pose API and that hinge data is for effects, not layout
+  (Tech Talk 111464, Forums 847644), and refuses to invent angle thresholds or present
+  .closed/.fullyOpen as Apple-confirmed. Replaces the ZStack with ArrangementView using the
+  overlay style (primary controls go to the trailing/bottom part when partially open, floating
+  otherwise), reads @Environment(\.overlayArrangementZIndex) inside the pane to collapse controls
+  when floating, and names the table-pose rule (top for distance viewing, bottom for controls).
+  Enforces Apple's container rules: the arrangement view must not sit inside the ScrollView; the
+  NavigationStack stays outside; UpNextList scrolls inside a pane. Answers the orientation
+  question with Apple's statement that the inner display does not honor supported orientations
+  and there is no sanctioned lock, noting the thread's second wording without resolving it.

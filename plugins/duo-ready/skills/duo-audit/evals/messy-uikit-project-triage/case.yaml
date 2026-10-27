@@ -1,0 +1,19 @@
+schema_version: "1.1"
+name: messy-uikit-project-triage
+expected_outcome: |
+  Runs scripts/duo_audit.py on the BadApp fixture (markdown or json), reports the
+  summary (48 findings; 14 P0, 19 P1, 15 P2; exit code 1) and triages P0 first:
+  no scene lifecycle (DUO-009) and no launch screen (DUO-010) as blockers,
+  then UIScreen.main / UIWindow(frame:), userInterfaceIdiom, orientation and
+  symmetric safe-area math, each mapped to Apple's Step 2 list with the Apple
+  replacement (view.bounds/window.bounds, UIWindow(windowScene:), size classes,
+  view.bounds.inset(by: view.safeAreaInsets)). Explains the "small in the
+  middle" symptom as the iOS 26/27 SDK tier and says Xcode 27.1 (iOS 27.1 SDK)
+  is required for the full display, citing the Three steps page; notes the
+  LastUpgradeCheck = 2600 finding is a heuristic proxy and the otool
+  LC_BUILD_VERSION check is a third-party tip. Flags heuristic findings
+  (DUO-011/012/013/014/016/017/018/019/023) as needing code confirmation, says
+  the cross-platform hits (DUO-030 to 033) can be deferred or suppressed if the
+  configs are dead, points to duo-layout, duo-bars, duo-scenes, duo-ship,
+  duo-crossplatform, and reminds about Apple's App Resizability skill and
+  three steps without calling the scan a pass/fail verdict.

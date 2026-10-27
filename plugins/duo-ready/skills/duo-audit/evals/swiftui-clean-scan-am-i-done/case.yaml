@@ -1,0 +1,17 @@
+schema_version: "1.1"
+name: swiftui-clean-scan-am-i-done
+expected_outcome: |
+  Runs scripts/duo_audit.py on the GoodApp fixture, reports zero findings and
+  exit code 0, and then says plainly that a clean scan is not a pass: Apple's
+  Step 2 is a grep list, Apple's own App Resizability skill "finds most issues,
+  but not all of them", and SwiftUI apps on TabView/NavigationStack have still
+  shipped empty vertical rails (text-only toolbar items) and grids spanning the
+  fold. Treats "Already adopted" as keyword detection only. Hands the user
+  Apple's Technology Overview audit checklist and a concrete manual pass in the
+  Duo simulator (Device Hub Closed / Partially Open / Open, Option-drag hinge,
+  Split View, sheets, keyboard, both rotations), checks toolbar items have
+  icons, player/Up-next layout against the fold, and the camera screen via
+  duo-camera since the scanner has no camera rule. Points to duo-test and
+  duo-ship (screenshot sizes 1398x2034 and 2007x2853, badge, April 2027 rule
+  with its scope ambiguity, launch screen required). Does not quote point
+  dimensions as Apple's and does not say the app is "certified" or "ready".

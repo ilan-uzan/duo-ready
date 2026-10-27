@@ -1,0 +1,13 @@
+schema_version: "1.1"
+name: uikit-grid-splits-on-the-fold
+expected_outcome: |
+  Replaces the cached UIScreen.main.bounds width and the idiom check with sizes read from the
+  collection view's bounds in a layout callback (viewDidLayoutSubviews / viewWillTransition) and
+  size-class observation via registerForTraitChanges, citing Apple's Three steps / Tech Talk 111461.
+  Recommends an even column count because a division region is present (Tech Talk 111463, HIG),
+  and keeping the fold clear with UIView.reservedRegions(kind: .division) read in updateConstraints(),
+  noting compositional/flow layouts do not avoid the fold automatically. Moves the close button to
+  safeAreaLayoutGuide, explaining the one-sided vertical-bar inset and that prefersStatusBarHidden
+  does not remove it (labelled third-party where it is). Refuses to give an Apple point width:
+  says Apple publishes pixels only and the 669×951 pt figure is a third-party simulator measurement
+  that layout must not depend on. Gates iOS 27.1 calls with #available since the target is iOS 17.
