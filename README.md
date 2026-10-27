@@ -61,7 +61,7 @@ The rules come from Apple's own "Step 2: Fix patterns" list on the [Three steps]
 
 Then type `/duo-optimize` and say "optimize my app for iPhone Duo": the agent scans your code, fixes it, builds with Xcode 27.1, runs the iPhone Duo simulator and checks screenshots of both displays. Or type `/duo-audit` for a read-only report, or just describe the problem ("my toolbar went sideways on the new iPhone") and Claude picks the right skill.
 
-**Any agent that reads SKILL.md** (Cursor, Codex, Copilot, Gemini CLI and others): copy the folders from [`plugins/duo-ready/skills/`](plugins/duo-ready/skills) into your agent's skills directory (`duo-optimize` reads its sibling skills and the `duo-audit` scanner, so copy them together). The skills follow and follows the open [Agent Skills](https://agentskills.io/specification) layout.
+**Any agent that reads SKILL.md** (Cursor, Codex, Copilot, Gemini CLI and others): copy the folders from [`plugins/duo-ready/skills/`](plugins/duo-ready/skills) into your agent's skills directory (`duo-optimize` reads its sibling skills and the `duo-audit` scanner, so copy them together). The skills follow the open [Agent Skills](https://agentskills.io/specification) layout.
 
 ## The skills
 
