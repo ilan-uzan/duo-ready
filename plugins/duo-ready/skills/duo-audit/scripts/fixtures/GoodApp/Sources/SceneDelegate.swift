@@ -19,8 +19,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 final class AdaptiveViewController: UIViewController {
-    private var directionCoordinator: AVCaptureDeviceDirectionCoordinator?
+    // Stored properties cannot be availability-gated; the iOS 27.1 type is exposed below.
+    private var directionCoordinatorStorage: Any?
+    @available(iOS 27.1, *)
+    private var directionCoordinator: AVCaptureDeviceDirectionCoordinator? {
+        get { directionCoordinatorStorage as? AVCaptureDeviceDirectionCoordinator }
+        set { directionCoordinatorStorage = newValue }
+    }
 
+    @available(iOS 27.1, *)
     override var preferredVerticalBarBehavior: UIVerticalBarBehavior { .automatic }
 
     override func viewDidLoad() {
@@ -28,8 +35,10 @@ final class AdaptiveViewController: UIViewController {
         registerForTraitChanges([UITraitHorizontalSizeClass.self, UITraitVerticalSizeClass.self]) {
             (self: Self, _: UITraitCollection) in self.view.setNeedsLayout()
         }
-        let hinge = UIHingeInteraction { _, update in _ = update.hinge?.angle }
-        view.addInteraction(hinge)
+        if #available(iOS 27.1, *) {
+            let hinge = UIHingeInteraction { _, update in _ = update.hinge?.angle }
+            view.addInteraction(hinge)
+        }
         let scale = traitCollection.displayScale
         _ = scale
     }
@@ -37,10 +46,15 @@ final class AdaptiveViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let content = view.bounds.inset(by: view.safeAreaInsets)
-        let regions = view.reservedRegions(kind: .division)
-        _ = (content, regions, traitCollection.horizontalSizeClass)
+        if #available(iOS 27.1, *) {
+            let regions = view.reservedRegions(kind: .division)
+            _ = (content, regions, traitCollection.horizontalSizeClass)
+        } else {
+            _ = (content, traitCollection.horizontalSizeClass)
+        }
     }
 
+    @available(iOS 27.1, *)
     func showSplit(primary: UIViewController, secondary: UIViewController) {
         let arrangementVC = UIArrangementViewController()
         arrangementVC.setViewController(primary, for: .primary)

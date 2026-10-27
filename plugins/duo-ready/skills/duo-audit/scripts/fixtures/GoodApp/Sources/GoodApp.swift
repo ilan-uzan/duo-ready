@@ -22,7 +22,7 @@ struct RootView: View {
                         Button("Share", systemImage: "square.and.arrow.up") {}
                     }
                 }
-                .toolbarVerticalBehavior(.automatic)
+                .modifier(AutomaticVerticalToolbar())
         }
         .onGeometryChange(for: CGSize.self) { proxy in proxy.size } action: { size = $0 }
     }
@@ -45,16 +45,39 @@ struct RootView: View {
 struct PlayerView: View {
     var body: some View {
         GeometryReader { proxy in
-            let regions: [CGRect]
-            if #available(iOS 27.1, *) {
-                regions = proxy.reservedRegions(kind: .division).map(\.frame)
-            } else {
-                regions = []
-            }
-            Color.black.overlay(Text("\(regions.count) regions"))
+            Color.black.overlay(Text("\(divisionRegions(proxy).count) regions"))
         }
         .aspectRatio(contentMode: .fit)
-        .backgroundExtensionEffect()
+        .modifier(BackgroundExtension())
+    }
+
+    private func divisionRegions(_ proxy: GeometryProxy) -> [CGRect] {
+        if #available(iOS 27.1, *) {
+            return proxy.reservedRegions(kind: .division).map(\.frame)
+        }
+        return []
+    }
+}
+
+/// Applies the existing backgroundExtensionEffect() call only where the SDK makes it available (iOS 26.0+).
+struct BackgroundExtension: ViewModifier {
+    @ViewBuilder func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.backgroundExtensionEffect()
+        } else {
+            content
+        }
+    }
+}
+
+/// Applies toolbarVerticalBehavior on iOS 27.1 and later; no-op on older systems.
+struct AutomaticVerticalToolbar: ViewModifier {
+    @ViewBuilder func body(content: Content) -> some View {
+        if #available(iOS 27.1, *) {
+            content.toolbarVerticalBehavior(.automatic)
+        } else {
+            content
+        }
     }
 }
 
@@ -62,6 +85,7 @@ struct UpNextView: View {
     var body: some View { List { Text("Up next") } }
 }
 
+@available(iOS 27.1, *)
 struct CameraScreen: View {
     @State private var accessoryEnabled = true
     var body: some View {
