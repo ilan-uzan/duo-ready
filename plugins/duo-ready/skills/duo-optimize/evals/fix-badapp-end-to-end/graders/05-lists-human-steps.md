@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The final message lists remaining human steps: testing both displays in Device Hub across poses, testing on a physical iPhone Duo, adding Duo App Store screenshots (noting Apple's two pages disagree on which apps the April 2027 rule covers), and reviewing the diff.
+The final message separates what was verified by running something from what was not. If Xcode 27.1 was unavailable it says the build, simulator run and screenshot review were not done; if it was available it names the screenshots it captured and describes what they show. It lists remaining human steps: a pass on a physical iPhone Duo and review of the diff.

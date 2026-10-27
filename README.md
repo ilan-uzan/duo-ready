@@ -59,15 +59,15 @@ The rules come from Apple's own "Step 2: Fix patterns" list on the [Three steps]
 /plugin install duo-ready@duo-ready
 ```
 
-Then type `/duo-audit`, or just describe the problem ("my toolbar went sideways on the new iPhone") and Claude picks the right skill.
+Then type `/duo-optimize` and say "optimize my app for iPhone Duo": the agent scans your code, fixes it, builds with Xcode 27.1, runs the iPhone Duo simulator and checks screenshots of both displays. Or type `/duo-audit` for a read-only report, or just describe the problem ("my toolbar went sideways on the new iPhone") and Claude picks the right skill.
 
-**Any agent that reads SKILL.md** (Cursor, Codex, Copilot, Gemini CLI and others): copy any folder from [`plugins/duo-ready/skills/`](plugins/duo-ready/skills) into your agent's skills directory. Each skill is self-contained and follows the open [Agent Skills](https://agentskills.io/specification) layout.
+**Any agent that reads SKILL.md** (Cursor, Codex, Copilot, Gemini CLI and others): copy the folders from [`plugins/duo-ready/skills/`](plugins/duo-ready/skills) into your agent's skills directory (`duo-optimize` reads its sibling skills and the `duo-audit` scanner, so copy them together). The skills follow and follows the open [Agent Skills](https://agentskills.io/specification) layout.
 
 ## The skills
 
 | Command | What it does | You leave with |
 |---|---|---|
-| [`/duo-optimize`](plugins/duo-ready/skills/duo-optimize/SKILL.md) | Does the whole job: scans, fixes what the scanner finds on a git branch, rebuilds, re-scans, captures simulator screenshots, and reports what is done and what still needs a human | A branch of small commits, before and after scan counts, and an honest list of what was not verified |
+| [`/duo-optimize`](plugins/duo-ready/skills/duo-optimize/SKILL.md) | Does the whole job: scans, fixes the code on a git branch, builds with Xcode 27.1, runs the Duo simulator, opens screenshots of both displays, fixes what it sees, repeats | A branch of small commits, before and after scan counts, screenshot evidence, and an honest list of what was not verified |
 | [`/duo-audit`](plugins/duo-ready/skills/duo-audit/SKILL.md) | Runs the scanner, works out which SDK tier your build is on, triages P0 to P2 | A fix list ordered by what Apple says breaks first, and the skill to open for each |
 | [`/duo-layout`](plugins/duo-ready/skills/duo-layout/SKILL.md) | Size classes, scene geometry, reserved regions, `ArrangementView` / `UIArrangementViewController`, fold continuity | Layout code that uses the fold as a division region instead of guessing a pose |
 | [`/duo-bars`](plugins/duo-ready/skills/duo-bars/SKILL.md) | Vertical navigation, tool and tab bars: who owns the bar, icon and title rules, order, overflow, opt-out | Bars that actually go vertical, with no empty rail |

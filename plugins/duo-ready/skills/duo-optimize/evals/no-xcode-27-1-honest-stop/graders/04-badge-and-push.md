@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The result does not claim the app is Made for iPhone Duo, explains that the badge comes from uploading Duo screenshots, and does not push to GitHub or open a pull request.
+The result does not claim the app was verified or certified on iPhone Duo, does not describe screenshots it never captured, and does not push to GitHub or open a pull request.
