@@ -236,7 +236,11 @@ Keep it short:
 ## Refuse these shortcuts
 
 - Saying "your app is optimized for iPhone Duo" or "certified". Say what was
-  checked and how.
+  checked and how. If asked about the "Made for iPhone Duo" badge: Apple says
+  it appears when iPhone Duo screenshots are submitted in App Store Connect
+  ([Developer News, Oct 5 2026](https://developer.apple.com/news/?id=kkphp5qo)),
+  so it does not come from code, and this skill does no uploads. Do not say
+  Apple publishes no badge.
 - Declaring success because the scanner is quiet or the build passed.
 - Pushing, opening a pull request, or changing signing, bundle ids, version
   numbers or App Store Connect settings.
