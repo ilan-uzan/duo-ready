@@ -1,10 +1,16 @@
-Last verified: 2026-10-26 against the report; Xcode 27.1 (27A9275)
+Last verified: 2026-10-27 against the report and the Expo guide; Xcode 27.1 (27A9275)
 
 # React Native and Expo on iPhone Duo
 
-State of knowledge (2026-10-26): Meta and Expo had published no official iPhone
-Duo documentation. One launch crash was fixed in RN 0.88 (issue #58606). Two
-community packages bridge the iOS 27.1 fold APIs. Everything else in this file
+State of knowledge (2026-10-27): Expo published an official guide on 2026-10-23
+(https://expo.dev/blog/supporting-iphone-duo, third-party to Apple, first-party to
+Expo): it requires Expo SDK 58 and Xcode 27.1, recommends Expo Router
+`NativeTabs`, and documents `expo-hinge` (`useHinge`; statuses `closed`,
+`partiallyOpen`, `fullyOpen`, `unknown`), `react-native-reserved-regions`
+(a community package it links to), `ArrangementView` and the rail APIs. Meta had
+published no iPhone Duo documentation as of 2026-10-26. One launch crash was
+fixed in RN 0.88 (issue #58606). Two community packages bridge the iOS 27.1 fold
+APIs. Everything else in this file
 about the JS layer is consultancy guidance (third-party, unverified). Check the
 current React Native release notes, the Expo SDK changelog, and the issue
 tracker before relying on any line below; this is the fastest-aging reference
@@ -123,7 +129,7 @@ SDK shipped.
 | `Platform.isPad` gating a wide layout | `Platform.isPad` is `false` on Duo (idiom stays `.phone`, Apple) | Branch on `useWindowDimensions()` width and height, or expose size classes through a native module |
 | Pausing media whenever the app state is not `active` | A visible app can be `inactive` in Split View, so video freezes while on screen | Pause on `background` only |
 | Expecting JS bindings for `ReservedRegion`, `ArrangementView`, `onHingeChange` | None exist in React Native core | Use a bridge (section 4) or a native module |
-| `expo-hinge` on npm | Reported as a placeholder package | Do not depend on it |
+| `expo-hinge` before SDK 58 | An older community report called the npm package a placeholder; Expo's guide (2026-10-23) now documents it as an SDK 58 library | Use it only on Expo SDK 58+; read its docs at docs.expo.dev/versions/v58.0.0/sdk/hinge/ |
 
 Related: `react-native-screens` shipped Duo fixes on 2026-10-13 (third-party,
 unverified; no changelog entry was captured, so check the package release
@@ -199,8 +205,9 @@ Implement the Swift side from Apple's documented APIs (see `duo-layout` for
 
 ## 5. What is unverified or missing
 
-- No official React Native release notes or Expo docs mentioning iPhone Duo
-  were found. The "fold API open PR" claim on iphoneduosupport.com carries no
+- No official React Native release notes mentioning iPhone Duo were found.
+  Expo's guide exists (see the top of this file); its API names were read from
+  the blog text on 2026-10-27, not compiled or run. The "fold API open PR" claim on iphoneduosupport.com carries no
   PR number.
 - The exact RN 0.88 change that fixes #58606 (template change vs runtime) was
   not captured; the issue page has no maintainer comment.

@@ -21,9 +21,11 @@ description: >-
 
 ## What Apple actually says
 
-No cross-platform framework vendor (Meta/React Native, Expo, Google/Flutter,
-Ionic/Capacitor, Unity) had published official iPhone Duo guidance as of
-2026-10-26, and Apple publishes nothing framework-specific. Apple's rules reach
+Apple publishes nothing framework-specific. Expo is the one framework vendor
+found with official guidance: its blog post "Supporting iPhone Duo with Expo: a
+developer guide" (2026-10-23, https://expo.dev/blog/supporting-iphone-duo) says Expo SDK 58 plus Xcode 27.1
+is required. Meta/React Native, Google/Flutter, Ionic/Capacitor and Unity had
+published none as of 2026-10-26 (searched, not exhaustive). Apple's rules reach
 these apps through the native shell they ship inside:
 
 - The inner display you get depends on the SDK the binary links against:
