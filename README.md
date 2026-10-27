@@ -2,7 +2,7 @@
 
 <p align="center">
   Make your iOS app ready for iPhone Duo.<br>
-  Ten Claude Code skills and a code scanner, built only from what Apple has actually published.
+  Eleven Claude Code skills and a code scanner, built only from what Apple has actually published.
 </p>
 
 <p align="center">
@@ -67,6 +67,7 @@ Then type `/duo-audit`, or just describe the problem ("my toolbar went sideways 
 
 | Command | What it does | You leave with |
 |---|---|---|
+| [`/duo-optimize`](plugins/duo-ready/skills/duo-optimize/SKILL.md) | Does the whole job: scans, fixes what the scanner finds on a git branch, rebuilds, re-scans, captures simulator screenshots, and reports what is done and what still needs a human | A branch of small commits, before and after scan counts, and an honest list of what was not verified |
 | [`/duo-audit`](plugins/duo-ready/skills/duo-audit/SKILL.md) | Runs the scanner, works out which SDK tier your build is on, triages P0 to P2 | A fix list ordered by what Apple says breaks first, and the skill to open for each |
 | [`/duo-layout`](plugins/duo-ready/skills/duo-layout/SKILL.md) | Size classes, scene geometry, reserved regions, `ArrangementView` / `UIArrangementViewController`, fold continuity | Layout code that uses the fold as a division region instead of guessing a pose |
 | [`/duo-bars`](plugins/duo-ready/skills/duo-bars/SKILL.md) | Vertical navigation, tool and tab bars: who owns the bar, icon and title rules, order, overflow, opt-out | Bars that actually go vertical, with no empty rail |

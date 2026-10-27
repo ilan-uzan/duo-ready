@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "duo-ready",
-      "description": "iPhone Duo skills: /duo-audit /duo-layout /duo-bars /duo-scenes /duo-camera /duo-test /duo-ship /duo-design /duo-backend /duo-crossplatform",
+      "description": "iPhone Duo skills: /duo-optimize /duo-audit /duo-layout /duo-bars /duo-scenes /duo-camera /duo-test /duo-ship /duo-design /duo-backend /duo-crossplatform",
       "source": "./plugins/duo-ready",
       "category": "development"
     }
