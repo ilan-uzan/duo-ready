@@ -44,3 +44,14 @@ Where to look for each item:
 - Simulator pose control: [Apple Developer Forums 847883](https://developer.apple.com/forums/thread/847883); [XCUIDevice](https://developer.apple.com/documentation/xcuiautomation/xcuidevice).
 - Fold and scene lifecycle: [Apple Developer Forums 847838](https://developer.apple.com/forums/thread/847838); [Apple Developer Forums 847644](https://developer.apple.com/forums/thread/847644).
 - Web APIs: [Apple Developer Forums 847644](https://developer.apple.com/forums/thread/847644) (Viewport Segments and Device Posture are opt-in experimental features in iOS 27.1, enabled at Settings > Apps > Safari > Advanced > Feature Flags; the flag names themselves were not captured).
+
+## First real run (2026-10-27, one Mac, one app)
+
+Observed running `duo-optimize` on a real SwiftUI app with Xcode 27.1 (27A9275) and the iOS 27.1 runtime (24A94425). These are local observations, not Apple statements, from a single machine.
+
+- Built, installed and launched on the iPhone Duo simulator; the binary was stamped `sdk 27.1`.
+- `xcrun simctl io <udid> enumerate` listed `primary` as 1398x2034 and `primary-1` as 2007x2853, matching the third-party display ids in `duo-test`.
+- The outer display (closed pose) was seen with content, before and after the fixes: moving hand-built headers into the system navigation bar and `.toolbar` put the controls in the vertical side bar.
+- The inner display was black in every capture, so nothing about the inner display was verified. No tool was available to fold or open the device in Device Hub.
+- The scanner reported 29 findings before and 27 after; only the two hidden-navigation-bar findings were cleared by code. It does not flag title-only toolbar buttons, which `duo-bars` calls the most common defect; `duo-optimize` tells the agent to grep for them.
+- Not tested: Open and Partially Open poses, rotation, Split View, sheets after a fold, a physical device.

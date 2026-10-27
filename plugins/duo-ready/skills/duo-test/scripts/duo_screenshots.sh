@@ -35,8 +35,9 @@
 #   inactive display.
 #
 # Requires: macOS with Xcode 27.1 (27A9275) or later installed, `xcrun`, `sips`.
-# This script was written without access to Xcode 27.1 and has only been
-# syntax-checked; it is deliberately defensive and prints what it does.
+# This script was written without Xcode 27.1 and first ran on a real Xcode 27.1
+# machine on 2026-10-27 (display ids primary=1398x2034 and primary-1=2007x2853
+# matched there; one machine only). It is deliberately defensive and prints what it does.
 
 set -euo pipefail
 
@@ -91,7 +92,7 @@ Output files:
 Before running: open the device in Xcode's Device Hub (Open button) so the inner
 display is active. There is no simctl command to change the pose.
 
-Exit codes: 0 both files captured at the expected sizes; 1 captured but at least
+Exit codes: 0 both files captured at the expected sizes and not suspiciously small; 1 captured but at least
 one size differs from Apple's table; 2 environment or usage error.
 USAGE
 }
@@ -247,6 +248,19 @@ check() {
 
 check "$OUTER_PATH" "$EXPECTED_OUTER" "outer" "2034x1398"
 check "$INNER_PATH" "$EXPECTED_INNER" "inner" "2853x2007"
+
+# Blank-capture heuristic (observed, not documented by Apple): on one Xcode 27.1
+# test machine a black inner capture was 106123 bytes and every real screen was
+# several times larger. Size alone cannot prove a capture is blank, so this only
+# warns; open the image.
+bytes_of() { stat -f%z "$1" 2>/dev/null || wc -c < "$1"; }
+for f in "$OUTER_PATH" "$INNER_PATH"; do
+  b="$(bytes_of "$f")"
+  if [ "$b" -lt 150000 ]; then
+    note "warning: $f is only $b bytes; this is often a black or empty capture (inactive display, or taken too soon after boot). Open it, and retake if it is blank."
+    STATUS=1
+  fi
+done
 
 note "done. Look at both files before uploading: a black inner image means the device was closed or was captured too soon after boot."
 exit "$STATUS"

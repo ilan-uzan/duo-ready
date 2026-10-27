@@ -96,17 +96,29 @@ fix applied" and never edit the scanner or add `--ignore` to lower the count.
 2. Confirm the SDK stamp: `otool -l <App.app/App> | grep -A4 LC_BUILD_VERSION`
    must show `sdk 27.1` (third-party check; only that SDK gives the full inner
    display with vertical bars).
-3. Boot the simulator (a first launch "can take several minutes", Apple release
-   note 187708500), then `xcrun simctl install <udid> <App.app>` and
-   `xcrun simctl launch <udid> <bundle-id>`. Reach other screens with
-   `xcrun simctl openurl` when the app has a URL scheme, or by driving the
-   simulator window if you have desktop control.
+3. Boot the simulator (Apple's release note 187708500 says a first launch "can
+   take several minutes"; on one Xcode 27.1 test machine it did not, so check
+   `xcrun simctl list devices` rather than waiting blindly), then
+   `xcrun simctl install <udid> <App.app>` and
+   `xcrun simctl launch <udid> <bundle-id>`. `bootstatus` may print "Data
+   Migration Failed" on every boot while the device stays usable (observed on
+   Xcode 27.1; not documented by Apple). Keep the device booted for the whole
+   run: opening and quitting Device Hub mid-run shut it down in that test
+   ("Unable to lookup in current state: Shutdown"), so re-check it is Booted
+   before every capture.
+   To reach other screens, in this order: `xcrun simctl openurl` if the app has
+   a URL scheme; DEBUG launch arguments or UI-test hooks you find by grepping
+   the code (`grep -rn "CommandLine.arguments\|launchArguments" --include='*.swift' .`,
+   quote the glob under zsh), passing them with `xcrun simctl launch <udid>
+   <bundle-id> <args>`; or driving the simulator window if you have desktop
+   control. If none works, say which screens were unreachable.
 4. Folding: Apple documents no script or API for the pose. Use Device Hub's
    Closed, Partially Open and Open buttons and the Rotate button (Apple:
    [Interacting with your app in Device Hub](https://developer.apple.com/documentation/xcode/interacting-with-your-app-in-device-hub)).
-   If you have desktop control, click them yourself. If you do not, ask the
-   user to set the pose and say when ready, and meanwhile test the default
-   pose; say which poses were not checked.
+   If you have desktop control, click them yourself. If you do not,
+   test the pose the simulator is in and list the other poses as "Not
+   verified"; do not wait for the user in an unattended run, and say in the
+   report that a human can set the pose and rerun Phase 5.
 
 ## Phase 5: look at it
 
@@ -118,7 +130,13 @@ display open, rotated if the app supports it, and after a pose change):
    `xcrun simctl io <udid> enumerate` (the display ids conflict between
    third-party reports, so trust the printed list and the pixel sizes). Ignore
    the App Store file names. If the image is black or empty, wait and retake:
-   Apple lists black screenshots for a few minutes after boot (187146039).
+   Apple lists black screenshots for a few minutes after boot (187146039). The
+   script checks only pixel size and can exit 0 on a black capture, so open every
+   image, and treat identical file sizes across different screens as a blank
+   capture. A display you only ever saw black is "Not verified", never a pass.
+   On the test machine the inner display stayed black while the device was in
+   its default pose; opening the device in Device Hub first is Apple's documented
+   way to make the inner display active.
 2. Downscale large PNGs for viewing, for example
    `sips -Z 1400 in.png --out view.png`, then open the image and actually look
    at it. Do not infer from file size or from the code.
@@ -136,6 +154,15 @@ display open, rotated if the app supports it, and after a pose change):
 4. If something is wrong, find the cause in the code, route it to the owning
    skill, fix, rebuild, recapture. Give each screen at most three rounds; after
    that report it with the screenshot path and your best diagnosis.
+5. After any change to bars, safe areas or shared layout code, recapture the
+   screens you did not touch too. In the Kesef test, moving controls into the
+   system navigation bar covered part of an untouched welcome screen, and only a
+   recapture showed it.
+
+The scanner does not flag title-only toolbar buttons, which `duo-bars` names
+as the most common defect: grep the code for `Button("` or `Text(` inside
+`.toolbar`/`ToolbarItem` and `UIBarButtonItem(title:` yourself and give each an
+SF Symbol with its title, per `duo-bars`.
 
 Never describe a screenshot you did not open, and never report a screen as
 checked if it was only built.
@@ -147,8 +174,10 @@ Keep it short:
 - **Fixed**: rule ids, files, commits, scan counts before and after.
 - **Seen and verified**: screens and states checked on which display, with the
   screenshot paths.
-- **Not fixed and why**: false positives, design decisions, third-party
-  libraries, no documented API.
+- **Not fixed and why**: false positives, findings declined by design (say so
+  in those words, with the reason), third-party libraries, no documented API.
+  Scanner findings that code cannot clear (for example a project-upgrade marker
+  when the binary is already stamped sdk 27.1) go here, not in "Fixed".
 - **Not verified**: poses or screens not reached, anything not built or run, a
   missing Xcode 27.1, and that the sample code was not compile-checked unless
   the build in Phase 4 succeeded.
