@@ -227,8 +227,9 @@ Keep it short:
   Scanner findings that code cannot clear (for example a project-upgrade marker
   when the binary is already stamped sdk 27.1) go here, not in "Fixed".
 - **Not verified**: poses or screens not reached, anything not built or run, a
-  missing Xcode 27.1, and that the sample code was not compile-checked unless
-  the build in Phase 4 succeeded.
+  missing Xcode 27.1, and that your own edits were not compiled unless the
+  build in Phase 4 succeeded. (The skills' samples were type-checked against
+  the iOS 27.1 simulator SDK on 2026-10-27; that does not cover your edits.)
 - **Still needs a human**: a pass on a physical iPhone Duo (cameras, haptics,
   reachability and performance are not testable in the simulator) and review
   of the diff.

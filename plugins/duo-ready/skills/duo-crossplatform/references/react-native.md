@@ -90,7 +90,7 @@ bootstrap call differs by RN version and template (the issue names
 instead of inventing it:
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 // The React Native bootstrap call is template-specific; take it from the project's AppDelegate.
 import UIKit
 
@@ -198,8 +198,9 @@ Implement the Swift side from Apple's documented APIs (see `duo-layout` for
   Do not derive "tent" / "laptop" thresholds in JS.
 - Apple: "There's no single pose API" ([Apple Developer Forums 847644](https://developer.apple.com/forums/thread/847644)).
   Expose status, angle, active division frames and size classes, not a pose.
-- Only `.partiallyOpen` is confirmed as a hinge status case in Apple code;
-  `.closed` and `.fullyOpen` are third-party reports (report Appendix C).
+- The iOS 27.1 SDK (27A9275) declares `UIHinge.Status` `.unknown`, `.closed`,
+  `.partiallyOpen`, `.fullyOpen` (UIKit header, read 2026-10-27); a bridge's own
+  status strings are its own choice.
 - Reserved regions arrive only after the first layout pass and must not be
   cached (third-party, unverified, simulator observation).
 

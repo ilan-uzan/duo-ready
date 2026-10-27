@@ -4,9 +4,11 @@ Last verified: 2026-10-26 against the report; Xcode 27.1 (27A9275)
 
 Part A reproduces Apple's own examples exactly as quoted in the report and on the reference
 pages re-checked on 2026-10-26. Part B contains minimal samples composed from those confirmed
-symbols; none of Part B has been compiled against the iOS 27.1 SDK, and each one says so in
-its header comment. Placeholder types (`ShelfList`, `BookDetail`, `Album`, ...) are the
-user's own views.
+symbols, each with a header comment. Every Swift block in this file was type-checked with
+swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27; fragments and
+Apple's verbatim snippets were checked inside a scratch wrapper that declares only the app's
+placeholder types, with elided parts (`…`, `(...)`) left empty. Not run on a device.
+Placeholder types (`ShelfList`, `BookDetail`, `Album`, ...) are the user's own views.
 
 Contents
 
@@ -239,7 +241,7 @@ size-class and trait change" (Forums 847644), so switching the layout rather tha
 keeps `ShelfList` and `BookDetail` alive with their scroll positions.
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import SwiftUI
 
 struct LibraryScreen: View {
@@ -281,7 +283,7 @@ struct PosterGrid_Before: View {
 ```
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import SwiftUI
 
 struct PosterGrid: View {
@@ -323,7 +325,7 @@ final class HeroViewController_Before: UIViewController {
 ```
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 final class HeroViewController: UIViewController {
@@ -366,7 +368,7 @@ the regions change" ([UIView.reservedRegions](https://developer.apple.com/docume
 `frame` already includes `margins`, so no extra padding is added.
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 @available(iOS 27.1, *)
@@ -412,7 +414,7 @@ not it is currently active" (Tech Talk 111463). Apple also says apps "usually do
 place when the count changes.
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import SwiftUI
 
 @available(iOS 27.1, *)
@@ -446,7 +448,7 @@ page). The order below, navigation outside, arrangement in the middle, scrolling
 each pane, is this repo's inference from those rules.
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import SwiftUI
 
 @available(iOS 27.1, *)
@@ -469,10 +471,15 @@ struct LyricsList: View {
     @Environment(\.splitArrangementAxis) private var axis   // nil outside a split arrangement
 
     var body: some View {
-        List(lyricLines) { line in
+        let list = List(lyricLines) { line in
             Text(line.text)
         }
-        .listStyle(axis == .horizontal ? .plain : .insetGrouped)
+        // .plain and .insetGrouped are different ListStyle types, so branch instead of `? :`.
+        if axis == .horizontal {
+            list.listStyle(.plain)
+        } else {
+            list.listStyle(.insetGrouped)
+        }
     }
 }
 ```
@@ -481,7 +488,7 @@ Overlay variant for a foreground/background relationship (controls over video); 
 pane collapses itself when it is on top:
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import SwiftUI
 
 @available(iOS 27.1, *)
@@ -509,7 +516,7 @@ struct PlayerControls: View {
 ### B7 UIArrangementViewController with z-index
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 @available(iOS 27.1, *)
@@ -538,7 +545,7 @@ TN3192 describes comparing `coordinateSpace.bounds.size` in
 report, so this is a composition of the described steps.
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -573,7 +580,7 @@ Apple: the iOS 27.1 APIs are "Available on any iPhone or iPad running iOS 27.1+"
 `#if !targetEnvironment(macCatalyst)` (Xcode 27.1 Release Notes).
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 extension UIView {

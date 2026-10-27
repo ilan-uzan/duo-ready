@@ -67,7 +67,7 @@ App Store Connect analytics exposes only platform-level Device values (iPhone, i
 | Split View | scene bounds smaller than `windowScene.screen` bounds | report's recommendation (inferred) |
 | Which display | `view.window?.windowScene?.screen` bounds, not `UIScreen.main` | Apple (Tech Talk 111461) |
 
-Rules for the hinge property: log `String(describing:)` of the status rather than mapping cases, because only `.partiallyOpen` appears in Apple's own code; `.closed` and `.fullyOpen` are third-party reports. Never log or threshold the raw angle for product logic: "Update rate and precision are system policy, so don't depend on specific values" ([Apple Developer Forums 847644](https://developer.apple.com/forums/thread/847644)). Gate the hinge call behind availability; the Group Lab recommends "gating iOS 27.1 APIs behind availability checks" (same thread).
+Rules for the hinge property: log `String(describing:)` of the status rather than mapping cases, because the case set differs between frameworks (the iOS 27.1 SDK declares `.closed`, `.partiallyOpen`, `.fullyOpen` in SwiftUI and adds `.unknown` in UIKit) and may grow. Never log or threshold the raw angle for product logic: "Update rate and precision are system policy, so don't depend on specific values" ([Apple Developer Forums 847644](https://developer.apple.com/forums/thread/847644)). Gate the hinge call behind availability; the Group Lab recommends "gating iOS 27.1 APIs behind availability checks" (same thread).
 
 Verify with the vendor whether their SDK reads `UIScreen.main.bounds`; a developer measured it returning 466×678 while the app ran on the inner display (third-party, unverified, blakecrosley.com).
 

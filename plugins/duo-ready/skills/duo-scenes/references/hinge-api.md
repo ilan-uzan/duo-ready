@@ -131,7 +131,7 @@ The Apple `DeviceHinge.Status` and `UIHinge.Status` pages were not fetched by th
 Composed guard (minimal):
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import SwiftUI
 
 struct TiltEffectHost<Content: View>: View {
@@ -174,7 +174,7 @@ There is no `simctl` or `XCUIDevice` way to set the hinge; the forum request ([t
 
 ## 8. Gaps
 
-- Enumerated cases of `DeviceHinge.Status` and `UIHinge.Status` (only `.partiallyOpen` confirmed).
+- Resolved 2026-10-27 from the iOS 27.1 SDK (27A9275): `DeviceHinge.Status` has `.closed`, `.partiallyOpen`, `.fullyOpen`; `UIHinge.Status` adds `.unknown`.
 - Update rate and precision (system policy; unspecified).
 - Angle ranges for tent / laptop / book (none published).
 - Whether `angle` on a flat device is exactly 180° / π (third-party only).

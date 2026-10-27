@@ -158,7 +158,7 @@ APIs" (Tech Talk 111464). Full detail is in `duo-scenes`.
 |---|---|---|---|
 | `onHingeChange(isEnabled:_:)` | `nonisolated func onHingeChange(isEnabled: Bool = true, _ action: @escaping (DeviceHingeContext, DeviceHingeContext) -> Void) -> some View`; `DeviceHingeContext.hinge: DeviceHinge?`; `DeviceHinge.angle: Angle`, `.status: DeviceHinge.Status` | iOS 27.1+ | [Apple] |
 | `UIHingeInteraction`, `UIHinge` | `init(updateHandler:)`; `UIHinge.angle: CGFloat` in radians; `status: UIHinge.Status` | iOS 27.1+ | [Apple] |
-| Status cases | Only `.partiallyOpen` appears in Apple code; `.closed`, `.fullyOpen`, `.unknown` are third-party | iOS 27.1+ | [Apple] / [3P] |
+| Status cases | SwiftUI `DeviceHinge.Status`: `.closed`, `.partiallyOpen`, `.fullyOpen`; UIKit `UIHinge.Status`: `.unknown`, `.closed`, `.partiallyOpen`, `.fullyOpen` (iOS 27.1 SDK headers, 27A9275, read 2026-10-27) | iOS 27.1+ | [Apple SDK] |
 | Angle thresholds for tent / laptop / book | None published; "Update rate and precision are system policy, so don't depend on specific values" | n/a | [Apple] Forums 847644 |
 
 ## 10. Sidebar and corners
@@ -211,5 +211,5 @@ Everything in points is third-party. Never let layout depend on them.
 - Whether the `UIScreen` instance changes identity between displays.
 - Hinge angle thresholds between poses: none.
 - `contentMargins(for: .container)` as a Duo API: unverified.
-- `DeviceHinge.Status` / `UIHinge.Status` full case list: only `.partiallyOpen` confirmed.
+- `DeviceHinge.Status` / `UIHinge.Status` case list: resolved from the iOS 27.1 SDK headers (see the table above).
 - No Apple sample project exists; Apple's only runnable artifact is the App Resizability skill.

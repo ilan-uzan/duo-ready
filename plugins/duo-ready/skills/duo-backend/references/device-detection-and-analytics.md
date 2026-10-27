@@ -65,7 +65,7 @@ Do not log the hinge angle for product logic or thresholds: "Update rate and pre
 ## 5. Composed SwiftUI modifier
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 // Assumes a deployment target of iOS 27.1; otherwise wrap the hinge modifier in
 // `if #available(iOS 27.1, *)`, as the Group Lab recommends for all 27.1 APIs.
 import SwiftUI
@@ -104,7 +104,7 @@ The `onHingeChange` call shape (`{ _, newContext in hinge = newContext.hinge }`)
 ## 6. Composed UIKit scene-delegate hook
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 extension SceneDelegate {

@@ -2,7 +2,7 @@ Last verified: 2026-10-26 against the report; Xcode 27.1 (27A9275)
 
 # Camera samples for iPhone Duo
 
-Two kinds of code live here. Sections 1 and 2 are Apple's own snippets, copied verbatim from the Tech Talk transcripts and documentation articles the report cites; they are the only camera code Apple has published for Duo (there is no Apple sample project, and none of the six Tech Talk pages links one). Section 3 is composed from Apple-documented symbols and has **not** been compiled against the iOS 27.1 SDK; its header says so, and you should say so to the user.
+Two kinds of code live here. Sections 1 and 2 are Apple's own snippets, copied verbatim from the Tech Talk transcripts and documentation articles the report cites; they are the only camera code Apple has published for Duo (there is no Apple sample project, and none of the six Tech Talk pages links one). Section 3 is composed from Apple-documented symbols. Every Swift block in this file was type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27; fragments and Apple's verbatim snippets were checked inside a scratch wrapper that declares only the app's placeholder types, with elided parts (`…`, `(...)`) left empty. Not run on a device. Say so to the user.
 
 ## 1. Apple's direction coordinator init (verbatim)
 
@@ -73,7 +73,7 @@ Surrounding facts from the same article: `registerSceneAccessory(_:)` is a `UIVi
 ## 3. Composed: handle a direction change and reapply mirroring
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 // Duo-specific symbols (AVCaptureDeviceDirectionMap, AVCaptureDeviceDescriptor,
 // forwardFacingDeviceDescriptors, uniqueID) are from Apple's AVKit article
 // "Choosing a camera by the direction it faces". The AVCaptureSession plumbing

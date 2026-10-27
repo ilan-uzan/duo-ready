@@ -2,7 +2,7 @@ Last verified: 2026-10-26 against the report; Xcode 27.1 (27A9275)
 
 # Samples: vertical bars in SwiftUI and UIKit
 
-Two kinds of code appear here. **Apple's code** is reproduced exactly as the report quotes it from an Apple page or Tech Talk, with the source named. **Composed samples** are assembled from those confirmed symbols and carry the header `// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.` Nothing here was compiled; this skill cannot run Xcode 27.1. Long-standing pre-iOS 27 APIs used as scaffolding (`UIBarButtonItem(image:style:target:action:)`, `UIBarButtonItemGroup(barButtonItems:representativeItem:)`, `UIMenu`, `UIAction`, `navigationItem.trailingItemGroups`, SwiftUI `Button(_:systemImage:action:)` and `ToolbarItemPlacement.confirmationAction`) are outside the report's scope and are used as-is. All iOS 27.1-only symbols need `if #available(iOS 27.1, *)` when the deployment target is lower ([Apple Developer Forums 847644](https://developer.apple.com/forums/thread/847644)); Mac Catalyst targets need `#if !targetEnvironment(macCatalyst)` around them ([Xcode 27.1 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-27_1-release-notes)).
+Two kinds of code appear here. **Apple's code** is reproduced exactly as the report quotes it from an Apple page or Tech Talk, with the source named. **Composed samples** are assembled from those confirmed symbols and carry the header `// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.` Every Swift block in this file was type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27; fragments and Apple's verbatim snippets were checked inside a scratch wrapper that declares only the app's placeholder types, with elided parts (`…`, `(...)`) left empty. Not run on a device. Long-standing pre-iOS 27 APIs used as scaffolding (`UIBarButtonItem(image:style:target:action:)`, `UIBarButtonItemGroup(barButtonItems:representativeItem:)`, `UIMenu`, `UIAction`, `navigationItem.trailingItemGroups`, SwiftUI `Button(_:systemImage:action:)` and `ToolbarItemPlacement.confirmationAction`) are outside the report's scope and are used as-is. Gate each symbol at the availability the SDK declares (iOS 27.1 SDK, 27A9275): `ToolbarOverflowMenu`, `topBarPinnedTrailing`, `visibilityPriority` and `defaultTabBarPlacement` are iOS 27.0; `toolbarVerticalBehavior` and `axisBehavior` are iOS 27.1. Use `if #available` at that version when the deployment target is lower ([Apple Developer Forums 847644](https://developer.apple.com/forums/thread/847644)); Mac Catalyst targets need `#if !targetEnvironment(macCatalyst)` around them ([Xcode 27.1 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-27_1-release-notes)).
 
 ## Contents
 1. Apple's code, verbatim
@@ -64,7 +64,7 @@ tabBarController.sidebar.preferredPlacement = .sidebar
 ## 2. SwiftUI: a toolbar that survives the vertical bar (composed)
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import SwiftUI
 
 struct NoteEditor: View {
@@ -92,8 +92,8 @@ struct NoteEditor: View {
                     .visibilityPriority(.high)
                     ToolbarItem {
                         Button("Comments", systemImage: "bubble.left") { showComments() }
+                            .badge(note.unreadComments)   // View.badge(_:); ToolbarContent has no badge
                     }
-                    .badge(note.unreadComments)
                     ToolbarItem {
                         Button("Tag", systemImage: "tag") { tag() }
                     }
@@ -109,14 +109,14 @@ struct NoteEditor: View {
 }
 ```
 
-What this relies on: `toolbar(content:)` on a `NavigationStack` is the container Apple names ([Preparing your app](https://developer.apple.com/documentation/technologyoverviews/preparing-your-app-for-iphone-duo)); `.cancellationAction`, `.topBarPinnedTrailing`, `.visibilityPriority(_:)`, `ToolbarOverflowMenu`, `.badge(_:)` are from [Tech Talk 111462](https://developer.apple.com/videos/play/tech-talks/111462/). Where `.badge` attaches (ToolbarItem vs the Button) is not shown in Apple's snippet; the report records only `.badge(7)`.
+What this relies on: `toolbar(content:)` on a `NavigationStack` is the container Apple names ([Preparing your app](https://developer.apple.com/documentation/technologyoverviews/preparing-your-app-for-iphone-duo)); `.cancellationAction`, `.topBarPinnedTrailing`, `.visibilityPriority(_:)`, `ToolbarOverflowMenu`, `.badge(_:)` are from [Tech Talk 111462](https://developer.apple.com/videos/play/tech-talks/111462/). Where `.badge` attaches is not shown in Apple's snippet; the report records only `.badge(7)`. In the iOS 27.1 SDK, `badge(_:)` is declared on `View` (and `TabContent`), not on `ToolbarContent`, so it goes on the Button; whether the vertical bar draws it there was not checked on a device.
 
 ## 3. SwiftUI: the text-only Done fix, before and after (composed)
 
 Field report (third-party, unverified: blakecrosley.com worked example): a sheet whose only bar item was a text "Done" button "reserved the side rail and left it empty", because "If your item has a title and doesn't have an icon, the system doesn't present it vertically" ([Preparing your app](https://developer.apple.com/documentation/technologyoverviews/preparing-your-app-for-iphone-duo)). Two Apple-consistent fixes: give the item a symbol, or opt the sheet out ("Control-heavy sheets with only one item", [Tech Talk 111462](https://developer.apple.com/videos/play/tech-talks/111462/)).
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import SwiftUI
 
 // Before: title-only item. Not presented vertically; the rail can be reserved but empty.
@@ -190,7 +190,7 @@ Default: toolbars compress before tab bars. Use this on a tab whose toolbar acti
 ## 6. UIKit: navigation item configured for the vertical bar (composed)
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 final class NoteEditorViewController: UIViewController {
@@ -203,7 +203,7 @@ final class NoteEditorViewController: UIViewController {
                                     target: self, action: #selector(closeTapped))
         close.title = "Close"   // title is used in overflow menus and expanded forms
 
-        let done = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .done,
+        let done = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .prominent, // .done is deprecated since iOS 26 (UIBarButtonItem.h)
                                    target: self, action: #selector(doneTapped))
         done.title = "Done"
 
@@ -260,7 +260,7 @@ Note: `navigationItem.trailingItemGroups` is a pre-existing UIKit property used 
 A custom view that must stay in the bar:
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 let avatarItem = UIBarButtonItem(customView: avatarView)
 avatarItem.axisBehavior = .verticalPreferred   // otherwise custom views are not presented vertically
 
@@ -271,7 +271,7 @@ scopeControl.axisBehavior = .horizontalOnly    // segmented controls stay in the
 ## 7. UIKit: opting a single screen out (composed)
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 final class CalculatorViewController: UIViewController {
@@ -288,7 +288,7 @@ final class CalculatorViewController: UIViewController {
 Use the edge to refine content (for example, which side a floating control hugs), never to decide the overall layout; layout comes from size classes ([Tech Talk 111461](https://developer.apple.com/videos/play/tech-talks/111461/)).
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import SwiftUI
 
 struct PlaybackScrubber: View {
@@ -303,7 +303,7 @@ struct PlaybackScrubber: View {
 ```
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 final class PlayerViewController: UIViewController {

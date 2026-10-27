@@ -87,7 +87,7 @@ Then type `/duo-optimize` and say "optimize my app for iPhone Duo": the agent sc
 
 **Sources are one click away.** [docs/apple-sources.md](docs/apple-sources.md) lists all 81 Apple URLs behind the repo, grouped and described. [docs/device-facts.md](docs/device-facts.md) has every number with its status. [docs/api-quick-reference.md](docs/api-quick-reference.md) has every symbol with its minimum OS.
 
-**What we do not claim yet.** Code samples are composed from Apple-documented APIs and carry a header saying they have not been compile-checked against the iOS 27.1 SDK; Apple's own verbatim examples are marked as such. Nothing has been verified on a physical iPhone Duo. The scanner's 31 tests run in CI; the SwiftUI and UIKit samples do not yet. Pull requests that change either of those are the most useful ones you can send.
+**What we have checked, and what we have not.** Every Swift sample in the skills (52 blocks) was type-checked with `swiftc` against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27; two of our own samples were wrong and are fixed. The API names this repo used to mark as unverified (hinge status cases, `onHingeChange`, `ToolbarOverflowMenu`, `topBarPinnedTrailing`, `visibilityPriority`, `axisBehavior`, `AVCaptureDeviceDirectionCoordinator`) are declared in that SDK. `duo-optimize` has been run end to end on two real apps in the iPhone Duo simulator (Open pose on the inner display, Closed once). Nothing has been verified on a physical iPhone Duo, and type-checking is not running: samples have not been executed. The scanner's 31 tests run in CI; the samples do not yet.
 
 ## Apple ships its own skill. Why this one?
 

@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-Composed code samples carry a comment saying they are not yet compile-checked against the iOS 27.1 SDK.
+Composed code samples are either gated correctly for an iOS 17 deployment target or the answer says it did not compile them; the answer does not claim it compiled or ran code it did not.

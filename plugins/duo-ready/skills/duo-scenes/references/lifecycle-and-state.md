@@ -38,7 +38,7 @@ Migration list (every item traces to the sources above or to TN3192):
 Minimal shape (this is the audit fixture the scanner accepts, trimmed):
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -85,7 +85,7 @@ APIs TN3192 names for apps that observe scene geometry:
 TN3192's own sample compares `coordinateSpace.bounds.size` in `windowScene(_:didUpdateEffectiveGeometry:)` and calls something like `gameAssetManager.updateAssets(sceneSize:)` only when `!geometry.isInteractivelyResizing`. The report describes that sample rather than quoting it, so the version below is composed:
 
 ```swift
-// Composed from Apple-documented APIs; not yet compile-checked against the iOS 27.1 SDK.
+// Composed from Apple-documented APIs; type-checked with swiftc against the iOS 27.1 simulator SDK (Xcode 27.1, 27A9275) on 2026-10-27. Not run on a device.
 import UIKit
 
 extension SceneDelegate {
