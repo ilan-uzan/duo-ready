@@ -68,6 +68,11 @@ layout and size classes to `duo-layout`; bars, toolbars and tabs to
 replacement. Fix P0, then P1, then P2. Rules for every edit:
 
 - Smallest change that removes the cause. No refactors or style changes.
+- A regular-width recomposition (for example an inspector beside the canvas)
+  has no sample code in `duo-layout`; compose it from the size-class guidance,
+  keep the compact layout identical, and check a compact-width iPhone simulator
+  afterwards. Panels whose content is wider than their slot can spill under the
+  vertical bar; fix the content to fit rather than clipping the panel.
 - If the deployment target is below 27.1, put iOS 27.1 APIs behind
   `if #available(iOS 27.1, *)` and keep the older behaviour working.
 - Use only API names those skills document. Some are documented by name only
@@ -119,6 +124,18 @@ fix applied" and never edit the scanner or add `--ignore` to lower the count.
    test the pose the simulator is in and list the other poses as "Not
    verified"; do not wait for the user in an unattended run, and say in the
    report that a human can set the pose and rerun Phase 5.
+
+   The pose can silently revert. On the test machine the device went from Open
+   back to closed after an install and launch while the simulator stayed Booted,
+   and nothing reported it. Read the pose from the captures: `--display=primary-1`
+   returning 2853x2007 with content means open (landscape); 2007x2853 and black
+   means closed; `--display=primary` swaps the other way (the display names follow
+   the active display, observed on one machine). `simctl io enumerate` printed no
+   pixel sizes there. So check the pixel size of the first capture in every round,
+   and if the pose is not the one you need, stop capturing, report which captures
+   are invalid, and ask for the pose to be restored (or list those screens as
+   "Not verified" in an unattended run). Never label a capture "inner" or "outer"
+   from the file name; label it from its pixel size and content.
 
 ## Phase 5: look at it
 
